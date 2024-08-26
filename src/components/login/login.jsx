@@ -17,8 +17,13 @@ export default function Login() {
 
     axios
       .post(
-        `${apiBaseUrl}auth/login`,
-        emailData
+        `${apiBaseUrl}auth/login/`,
+        emailData,
+        {
+          headers: {
+            'bypass-tunnel-reminder': true
+          }
+        }
       )
       .then((res) => {
         console.log(res);
@@ -54,8 +59,13 @@ export default function Login() {
 
     axios
       .post(
-        `${apiBaseUrl}auth/verify-otp`,
-        otpData
+        `${apiBaseUrl}auth/verify-otp/`,
+        otpData,
+        {
+          headers: {
+            'bypass-tunnel-reminder': true
+          }
+        }
       )
       .then((res) => {
         console.log(res);
