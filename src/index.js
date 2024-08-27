@@ -8,16 +8,24 @@ import {
 } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from './components/login/login';
+import KotakFinvasia from './components/kotak-finvasia-display/kotak-finvasia';
+import Navigation from './components/Navigation/navigation';
+import Dashboard from './components/Dashboard/dashboard';
+
 
 let router = createBrowserRouter([
   {
     path: "/",
     element: <Login />
   },
-  // {
-  //   path: "/reactpage",
-  //   element: <App />
-  // },
+  {
+    path: "/kotakfinvsaia",
+    element: <KotakFinvasia />
+  },
+  {
+    path: "/dashboard",
+    element: <div><Navigation /> <Dashboard/></div>
+  },
   {
     path: "*",
     element: <div>404 not found</div>

@@ -1,108 +1,122 @@
-import React, { useState } from "react";
-import { Form, Button, Alert } from "react-bootstrap";
-import "./login.css";
+import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './login.css';
+import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import apiBaseUrl from "../../constants/globaldata"
 
-import BackgroundImage from "../../assets/images/background.png";
-import Logo from "../../assets/images/logo.png";
+export default function Login() {
+  const [email, setEmail] = useState('');
+  const [otp, setOtp] = useState(new Array(6).fill(""));
+  const [step, setStep] = useState(1);
 
-const Login = () => {
-  const [inputUsername, setInputUsername] = useState("");
-  const [inputPassword, setInputPassword] = useState("");
-
-  const [show, setShow] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (event) => {
+  const handleEmailSubmit = (event) => {
     event.preventDefault();
-    setLoading(true);
-    await delay(500);
-    console.log(`Username :${inputUsername}, Password :${inputPassword}`);
-    if (inputUsername !== "admin" || inputPassword !== "admin") {
-      setShow(true);
-    }
-    setLoading(false);
+    const emailData = { email: email };
+
+    axios
+      .post(
+        `${apiBaseUrl}auth/login/`,
+        emailData,
+        {
+          headers: {
+            'bypass-tunnel-reminder': true
+          }
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        console.log(res.data);
+        setStep(2);
+      })
+      .catch((error) => {
+        console.error("There was an error sending the email!", error);
+        toast.error('There was an error sending the email!');
+      });
   };
 
-  const handlePassword = () => {};
+  const handleOtpChange = (element, index) => {
+    if (/^[0-9]$/.test(element.value)) {
+      const newOtp = [...otp];
+      newOtp[index] = element.value;
+      setOtp(newOtp);
 
-  function delay(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
+      if (element.nextSibling) {
+        element.nextSibling.focus();
+      }
+    }
+  };
+
+  const handleOtpSubmit = (event) => {
+    event.preventDefault();
+    const otpValue = otp.join("");
+
+    const otpData = {
+      email: email,
+      otp: otpValue
+    };
+
+    axios
+      .post(
+        `${apiBaseUrl}auth/verify-otp/`,
+        otpData,
+        {
+          headers: {
+            'bypass-tunnel-reminder': true
+          }
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        console.log(res.data);
+        alert('Login successful!');
+      })
+      .catch((error) => {
+        console.error("There was an error verifying the OTP!", error);
+        toast.error('here was an error verifying the OTP!');
+      });
+  };
 
   return (
-    <div
-      className="sign-in__wrapper"
-      style={{ backgroundImage: `url(${BackgroundImage})` }}
-    >
-      {/* Overlay */}
-      <div className="sign-in__backdrop"></div>
-      {/* Form */}
-      <Form className="shadow p-4 bg-white rounded" onSubmit={handleSubmit}>
-        {/* Header */}
-        <img
-          className="img-thumbnail mx-auto d-block mb-2"
-          src={Logo}
-          alt="logo"
-        />
-        <div className="h4 mb-2 text-center">Sign In</div>
-        {/* ALert */}
-        {show ? (
-          <Alert
-            className="mb-2"
-            variant="danger"
-            onClose={() => setShow(false)}
-            dismissible
-          >
-            Incorrect username or password.
-          </Alert>
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <ToastContainer />
+      <div className="card shadow-sm p-4">
+        {step === 1 ? (
+          <form onSubmit={handleEmailSubmit} className="login-form">
+            <h3 className="text-center mb-4">Login</h3>
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">Email</label>
+              <input
+                type="email"
+                id="email"
+                className="form-control"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit" className="btn btn-primary w-100">Send OTP</button>
+          </form>
         ) : (
-          <div />
-        )}
-        <Form.Group className="mb-2" controlId="username">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            type="text"
-            value={inputUsername}
-            placeholder="Username"
-            onChange={(e) => setInputUsername(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="mb-2" controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            value={inputPassword}
-            placeholder="Password"
-            onChange={(e) => setInputPassword(e.target.value)}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="mb-2" controlId="checkbox">
-          <Form.Check type="checkbox" label="Remember me" />
-        </Form.Group>
-        {!loading ? (
-          <Button className="w-100" variant="primary" type="submit">
-            Log In
-          </Button>
-        ) : (
-          <Button className="w-100" variant="primary" type="submit" disabled>
-            Logging In...
-          </Button>
-        )}
-        <div className="d-grid justify-content-end">
-          <Button
-            className="text-muted px-0"
-            variant="link"
-            onClick={handlePassword}
-          >
-            Forgot password?
-          </Button>
-        </div>
-      </Form>
-
+            <form onSubmit={handleOtpSubmit} className="login-form">
+              <h3 className="text-center mb-4">Enter OTP</h3>
+              <div className="d-flex justify-content-between mb-3 otp-input-container">
+                {otp.map((data, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    maxLength="1"
+                    className="form-control text-center otp-input"
+                    value={data}
+                    onChange={(e) => handleOtpChange(e.target, index)}
+                  />
+                ))}
+              </div>
+              <button type="submit" className="btn btn-primary w-100">Verify OTP</button>
+            </form>
+          )}
+      </div>
     </div>
   );
-};
-
-export default Login;
+}
