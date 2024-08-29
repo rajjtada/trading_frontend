@@ -8,9 +8,10 @@ import {
 } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from './components/login/login';
-import KotakFinvasia from './components/kotak-finvasia-display/kotak-finvasia';
 import Navigation from './components/Navigation/navigation';
 import Dashboard from './components/Dashboard/dashboard';
+import Kotak_Auth from './components/Integration/kotak_auth_otp';
+import Finvasia_Auth from './components/Integration/finvasia_auth_otp';
 
 
 let router = createBrowserRouter([
@@ -19,12 +20,16 @@ let router = createBrowserRouter([
     element: <Login />
   },
   {
-    path: "/kotakfinvsaia",
-    element: <KotakFinvasia />
-  },
-  {
     path: "/dashboard",
     element: <div><Navigation /> <Dashboard/></div>
+  },
+  {
+    path: "/kotak-auth",
+    element: <Kotak_Auth/>
+  },
+  {
+    path: "/finvasia-auth",
+    element: <Finvasia_Auth/>
   },
   {
     path: "*",
