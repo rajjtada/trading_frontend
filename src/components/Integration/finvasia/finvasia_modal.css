@@ -1,0 +1,13 @@
+/* finvasia_modal.css */
+.modal-body {
+  padding: 20px;
+}
+
+img {
+  margin-bottom: 20px;
+}
+
+.modal-title {
+  font-weight: bold;
+  color: #00457C;
+}

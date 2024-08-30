@@ -1,3 +1,3 @@
-let apiBaseUrl = "https://curly-frogs-kick.loca.lt/"
+let apiBaseUrl = "https://red-queens-roll.loca.lt/"
 
 export default apiBaseUrl;
