@@ -1,38 +1,126 @@
-.MarketCallTag{
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+}
 
+.MarketCallTag {
     padding-left: 10px;
-    color: blue;
+    color: #0d6efd;
+    font-weight: bold;
+    font-size: 1.5rem;
+    letter-spacing: 0.05rem;
+    transition: color 0.3s ease-in-out;
 }
 
-.kotak_btn{
-    color: red;
+.MarketCallTag:hover {
+    color: #084298;
 }
 
-.finvasia_btn{
-    color: red;
+/* Button Styling */
+.kotak_btn, .finvasia_btn {
+    background-color: #ff4d4f;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease-in-out;
 }
 
-.kotak_btn_integrated{
-    color:green
+.kotak_btn_integrated, .finvasia_btn_integrated {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease-in-out;
 }
 
-.finvasia_btn_integrated{
-    color:green
+.kotak_btn:hover, .finvasia_btn:hover, .kotak_btn_integrated:hover, .finvasia_btn_integrated:hover {
+    background-color: #ff7875;
+    color: #fff;
+    cursor: pointer;
 }
 
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    color: #495057;
+    margin-right: 20px;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #0d6efd;
+}
+
+/* Dropdown Menu Styling */
+.navbar-nav .dropdown-menu {
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-nav .dropdown-menu .dropdown-item:hover {
+    background-color: #0d6efd;
+    color: white;
+}
+
+/* Loader */
 .loader-overlay {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(255, 255, 255, 0.8);
     z-index: 999;
-    pointer-events: none; 
-  }
-  
-  
-  .loader-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader-img {
     width: 50px;
     height: 50px;
-  }
+}
+
+.offcanvas-menu-item {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+}
+
+
+
+@media (max-width: 990px) {
+
+    .navbar-nav {
+        flex-direction: column;
+        align-items:flex-start;
+    }
+    
+    .navbar-nav .nav-link  {
+        margin-right: 0;
+        padding: 10px;
+    }
+    .logout-btn, .kotak_btn, .finvasia_btn, .kotak_btn_integrated, .finvasia_btn_integrated, #navbarScrollingDropdown, .navbar-nav, .dropdown-menu{
+        margin-bottom: 10px;
+    }
+    .logout-btn, .kotak_btn, .finvasia_btn, .kotak_btn_integrated, .finvasia_btn_integrated{
+        margin-left:7px;
+        width: 101px;
+    }
+    .MarketCallTag {
+        padding-left: 0;
+        text-align: center;
+        width: 100%;
+    }
+}
