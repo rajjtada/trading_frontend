@@ -30,6 +30,18 @@ button {
   font-weight: bold;
 }
 
+@media only screen and (max-width: 460px) {
+  .otp-input {
+    width: 35px;
+    height: 40px;
+  font-size: 17px;
+  }
+  .otp-input-container {
+    gap: 5px;
+  }
+  
+}
+
 .loader-overlay {
   position: absolute;
   top: 0;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './login.css';
 import axios from "axios";
@@ -11,11 +11,41 @@ import Cookies from 'js-cookie';
 
 export default function Login() {
   const [email, setEmail] = useState('');
-  const [otp, setOtp] = useState(new Array(6).fill(""));
-  const [otpButtonDisable,setOtpButtonDisable] = useState(true);
+  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [otpButtonDisable, setOtpButtonDisable] = useState(true);
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const otpInputs = useRef([]);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      setLoading(true)
+      const token = Cookies.get("access_token");
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await axios.get(`${apiBaseUrl}verify/`, {
+          headers: {
+            Authorization: token,
+            'bypass-tunnel-reminder': "true"
+          }
+        });
+
+        if (response.status === 200) {
+          navigate('/dashboard');
+        }
+      } catch (error) {
+        setLoading(false);
+        return;
+      }
+    };
+
+    checkAuth();
+  }, [navigate]);
 
   const handleEmailSubmit = (event) => {
     event.preventDefault();
@@ -45,31 +75,49 @@ export default function Login() {
       });
   };
 
-  const handleOtpChange = (element, index) => {
-    if (/^[0-9]$/.test(element.value)) {
-      const newOtp = [...otp];
-      newOtp[index] = element.value;
-      setOtp(newOtp);
-  
-      if (element.nextSibling && element.value) {
-        element.nextSibling.focus();
-      }
-    } else if (element.value === "") {
-      const newOtp = [...otp];
-      newOtp[index] = "";
-      setOtp(newOtp);
-      if (element.previousSibling) {
-        element.previousSibling.focus();
-      }
+  const handleOtpChange = (e, index) => {
+    const value = e.target.value;
+    const newOtp = [...otp];
+    
+    newOtp[index] = value.replace(/[^0-9]/g, '');
+    
+    setOtp(newOtp);
+
+    if (value>=0 && index < 5) {
+      otpInputs.current[index + 1].focus();
     }
-    if(index===5){
-      setOtpButtonDisable(false)
-    }
-    else{
-      setOtpButtonDisable(true)
+
+    setOtpButtonDisable(newOtp.some(digit => digit === ''));
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+      // Move to previous input on backspace if current input is empty
+      otpInputs.current[index - 1].focus();
+    } else if (e.key === 'ArrowLeft' && index > 0) {
+      // Move to previous input on left arrow
+      otpInputs.current[index - 1].focus();
+    } else if (e.key === 'ArrowRight' && index < 5) {
+      // Move to next input on right arrow
+      otpInputs.current[index + 1].focus();
     }
   };
-  
+
+  const handleOtpPaste = (e) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData('text').replace(/[^0-9]/g, '').slice(0, 6);
+    const newOtp = [...otp];
+    for (let i = 0; i < pastedData.length; i++) {
+      newOtp[i] = pastedData[i];
+    }
+    setOtp(newOtp);
+    setOtpButtonDisable(newOtp.some(digit => digit === ''));
+    if (pastedData.length === 6) {
+      otpInputs.current[5].focus();
+    } else {
+      otpInputs.current[pastedData.length].focus();
+    }
+  };
 
   const handleOtpSubmit = (event) => {
     event.preventDefault();
@@ -77,46 +125,44 @@ export default function Login() {
     const otpValue = otp.join("");
 
     const otpData = {
-        email: email,
-        otp: otpValue
+      email: email,
+      otp: otpValue
     };
 
     axios
-        .post(
-            `${apiBaseUrl}auth/verify-otp/`,
-            otpData,
-            {
-                headers: {
-                    'bypass-tunnel-reminder': "true"
-                }
-            }
-        )
-        .then((res) => {
-            setLoading(false);
-            if (res.status === 200) {
-                const accessToken = res.data["access_token"];
-                Cookies.set('access_token', accessToken, { expires: 1 }); 
-                toast.success("Login Successful");
-                navigate("/dashboard");
-            }
-        })
-        .catch((error) => {
-            setLoading(false);
-            if (error.response) {
-                if (error.response.status === 400) {
-                    toast.error("OTP Invalid !");
-                } else {
-                    toast.error(`Error: ${error.response.status} - ${error.response.data.message || 'Something went wrong!'}`);
-                }
-            } else if (error.request) {
-                toast.error('No response received from the server.');
-            } else {
-                toast.error('There was an error verifying the OTP!');
-            }
-        });
-};
-
-
+      .post(
+        `${apiBaseUrl}auth/verify-otp/`,
+        otpData,
+        {
+          headers: {
+            'bypass-tunnel-reminder': "true"
+          }
+        }
+      )
+      .then((res) => {
+        setLoading(false);
+        if (res.status === 200) {
+          const accessToken = res.data["access_token"];
+          Cookies.set('access_token', accessToken, { expires: 1 });
+          toast.success("Login Successful");
+          navigate("/dashboard");
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        if (error.response) {
+          if (error.response.status === 400) {
+            toast.error("OTP Invalid !");
+          } else {
+            toast.error(`Error: ${error.response.status} - ${error.response.data.message || 'Something went wrong!'}`);
+          }
+        } else if (error.request) {
+          toast.error('No response received from the server.');
+        } else {
+          toast.error('There was an error verifying the OTP!');
+        }
+      });
+  };
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100 position-relative">
@@ -147,14 +193,17 @@ export default function Login() {
           <form onSubmit={handleOtpSubmit} className="login-form">
             <h3 className="text-center mb-4">Enter OTP</h3>
             <div className="d-flex justify-content-between mb-3 otp-input-container">
-              {otp.map((data, index) => (
+              {otp.map((digit, index) => (
                 <input
                   key={index}
+                  ref={el => otpInputs.current[index] = el}
                   type="text"
                   maxLength="1"
                   className="form-control text-center otp-input"
-                  value={data}
-                  onChange={(e) => handleOtpChange(e.target, index)}
+                  value={digit}
+                  onChange={(e) => handleOtpChange(e, index)}
+                  onKeyDown={(e) => handleKeyDown(e, index)}
+                  onPaste={handleOtpPaste}
                 />
               ))}
             </div>
@@ -164,5 +213,4 @@ export default function Login() {
       </div>
     </div>
   );
-  
 }

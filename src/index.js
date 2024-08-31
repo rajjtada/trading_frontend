@@ -10,21 +10,22 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Login from './components/login/login';
 import Navigation from './components/Navigation/navigation';
 import Dashboard from './components/Dashboard/dashboard';
+import AuthWrapper from './components/AuthWrapper/AuthWrapper'; 
 
-let router = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: "/",
-    element: <Login />
+    element:<Login />
   },
   {
     path: "/dashboard",
-    element: <div><Navigation /> <Dashboard/></div>
+    element: <AuthWrapper><div><Navigation /> <Dashboard/></div></AuthWrapper>
   },
   {
     path: "*",
     element: <div>404 not found</div>
   },
-])
+]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -33,7 +34,4 @@ root.render(
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

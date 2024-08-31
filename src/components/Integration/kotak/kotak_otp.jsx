@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
@@ -10,35 +10,54 @@ import Cookies from 'js-cookie';
 import kotakLogo from "../../../assets/images/kotak-logo.png";
 import './kotak_otp.css';
 
-export default function KotakOtpModal({ show,setIsKotakIntegrated, onHide }) {
-  const [otp, setOtp] = useState(new Array(4).fill(""));
+export default function KotakOtpModal({ show, setIsKotakIntegrated, onHide }) {
+  const [otp, setOtp] = useState(['', '', '', '']);
   const [otpButtonDisable, setOtpButtonDisable] = useState(true);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const otpInputs = useRef([]);
 
-  const handleOtpChange = (element, index) => {
-    if (/^[0-9]$/.test(element.value)) {
-      const newOtp = [...otp];
-      newOtp[index] = element.value;
-      setOtp(newOtp);
+  const handleOtpChange = (e, index) => {
+    const value = e.target.value;
+    const newOtp = [...otp];
 
-      if (element.nextSibling && element.value) {
-        element.nextSibling.focus();
-      }
-    } else if (element.value === "") {
-      const newOtp = [...otp];
-      newOtp[index] = "";
-      setOtp(newOtp);
-      if (element.previousSibling) {
-        element.previousSibling.focus();
-      }
+    newOtp[index] = value.replace(/[^0-9]/g, '');
+
+    setOtp(newOtp);
+
+    if (value>=0 && index < 3) {
+      otpInputs.current[index + 1].focus();
     }
-    if (index === 3) {
-      setOtpButtonDisable(false);
-    } else {
-      setOtpButtonDisable(true);
+
+    setOtpButtonDisable(newOtp.some(digit => digit === ''));
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+      otpInputs.current[index - 1].focus();
+    } else if (e.key === 'ArrowLeft' && index > 0) {
+      otpInputs.current[index - 1].focus();
+    } else if (e.key === 'ArrowRight' && index < 3) {
+      otpInputs.current[index + 1].focus();
     }
   };
+
+  const handleOtpPaste = (e) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData('text').replace(/[^0-9]/g, '').slice(0, 4);
+    const newOtp = [...otp];
+    for (let i = 0; i < pastedData.length; i++) {
+      newOtp[i] = pastedData[i];
+    }
+    setOtp(newOtp);
+    setOtpButtonDisable(newOtp.some(digit => digit === ''));
+    if (pastedData.length === 4) {
+      otpInputs.current[3].focus();
+    } else {
+      otpInputs.current[pastedData.length].focus();
+    }
+  };
+  
 
   const handleOtpSubmit = (event) => {
     event.preventDefault();
@@ -67,9 +86,15 @@ export default function KotakOtpModal({ show,setIsKotakIntegrated, onHide }) {
       .then((res) => {
         setLoading(false);
         if (res.status === 200) {
-          Cookies.set('kotak_access_token', res.data, { expires: 1 });
+          const kotak_access_token = {
+            Authorization: res.data["Authorization"],
+            sid: res.data["sid"],
+            auth: res.data["auth"],
+            sld: res.data["sld"]
+          }
+          Cookies.set('kotak_access_token', JSON.stringify(kotak_access_token), { expires: 1 });
           toast.success("Kotak Integrated Successfully");
-          onHide(); 
+          onHide();
           setIsKotakIntegrated(true);
           navigate("/dashboard");
         }
@@ -92,7 +117,6 @@ export default function KotakOtpModal({ show,setIsKotakIntegrated, onHide }) {
 
   return (
     <>
-      <ToastContainer />
       {loading && (
         <div className="loader-overlay d-flex justify-content-center align-items-center">
           <img src={loader} alt="Loading..." className="loader-img" />
@@ -106,16 +130,18 @@ export default function KotakOtpModal({ show,setIsKotakIntegrated, onHide }) {
           <img src={kotakLogo} alt="Kotak Logo" className="img-fluid mx-auto my-3" style={{ maxHeight: '100px', objectFit: 'contain' }} />
           <h3 className="text-center mb-4" style={{ color: '#00457C', fontWeight: 'bold' }}>Enter OTP</h3>
           <form onSubmit={handleOtpSubmit} className="login-form">
-            <div className="d-flex justify-content-between mb-3 otp-input-container">
-              {otp.map((data, index) => (
+            <div className="d-flex justify-content-center mb-3 otp-input-container">
+              {otp.map((digit, index) => (
                 <input
                   key={index}
+                  ref={el => otpInputs.current[index] = el}
                   type="text"
                   maxLength="1"
                   className="form-control text-center otp-input"
-                  value={data}
-                  onChange={(e) => handleOtpChange(e.target, index)}
-                  style={{ width: '40px', height: '40px', fontSize: '20px', margin: '0 5px', borderRadius: '8px' }}
+                  value={digit}
+                  onChange={(e) => handleOtpChange(e, index)}
+                  onKeyDown={(e) => handleKeyDown(e, index)}
+                  onPaste={handleOtpPaste}
                 />
               ))}
             </div>
