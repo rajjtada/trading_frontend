@@ -25,7 +25,7 @@ export default function KotakOtpModal({ show, setIsKotakIntegrated, onHide }) {
 
     setOtp(newOtp);
 
-    if (value>=0 && index < 3) {
+    if (value >= 0 && index < 3) {
       otpInputs.current[index + 1].focus();
     }
 
@@ -57,7 +57,7 @@ export default function KotakOtpModal({ show, setIsKotakIntegrated, onHide }) {
       otpInputs.current[pastedData.length].focus();
     }
   };
-  
+
 
   const handleOtpSubmit = (event) => {
     event.preventDefault();
@@ -74,7 +74,7 @@ export default function KotakOtpModal({ show, setIsKotakIntegrated, onHide }) {
 
     axios
       .post(
-        `${apiBaseUrl}integrations/kotak/verify/`,
+        `${apiBaseUrl}integrations/kotak/auth/verify/`,
         otpData,
         {
           headers: {
@@ -91,7 +91,7 @@ export default function KotakOtpModal({ show, setIsKotakIntegrated, onHide }) {
             sid: res.data["sid"],
             auth: res.data["auth"],
             sld: res.data["sld"]
-          }
+          };
           Cookies.set('kotak_access_token', JSON.stringify(kotak_access_token), { expires: 1 });
           toast.success("Kotak Integrated Successfully");
           onHide();
@@ -101,19 +101,40 @@ export default function KotakOtpModal({ show, setIsKotakIntegrated, onHide }) {
       })
       .catch((error) => {
         setLoading(false);
+
         if (error.response) {
           if (error.response.status === 400) {
             toast.error("OTP Invalid!");
-          } else {
+          }
+          else if (error.response.status === 401) {
+            try {
+              const detail = JSON.parse(error.response.data.detail);
+              const { message, flag } = detail;
+
+              console.log(`Message: ${message}, Flag: ${flag}`);
+
+              if (flag === "k") {
+                toast.error(message);
+              } else {
+                navigate("/");
+              }
+            } catch (e) {
+              console.error("Error parsing the detail field", e);
+              toast.error('Error: Unable to parse error details.');
+            }
+          }
+          else {
             toast.error(`Error: ${error.response.status} - ${error.response.data.message || 'Something went wrong!'}`);
           }
-        } else if (error.request) {
+        }
+        else if (error.request) {
           toast.error('No response received from the server.');
-        } else {
+        }
+        else {
           toast.error('There was an error verifying the OTP!');
         }
       });
-  };
+  }
 
   return (
     <>
