@@ -19,7 +19,7 @@ body {
 /* Button Styling */
 .kotak_btn, .finvasia_btn {
     background-color: #ff4d4f;
-    color: white;
+    color: white !important;
     padding: 8px 15px;
     border-radius: 5px;
     border: none;
@@ -29,7 +29,7 @@ body {
 
 .kotak_btn_integrated, .finvasia_btn_integrated {
     background-color: #28a745;
-    color: white;
+    color: white !important;
     padding: 8px 15px;
     border-radius: 5px;
     border: none;

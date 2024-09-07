@@ -14,7 +14,7 @@ import KotakOtpModal from '../Integration/kotak/kotak_otp';
 import Finvasia from '../Integration/finvasia/finvasia_modal';
 import Cookies from "js-cookie";
 
-export default function Navigation() {
+export default function Navigation({setIsShoonyaConnected}) {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [isKotakIntegrated, setIsKotakIntegrated] = useState(false);
@@ -49,7 +49,7 @@ export default function Navigation() {
     const handleKotakIntegration = () => {
         setLoading(true);
         axios
-            .get(`${apiBaseUrl}integrations/kotak/`, {
+            .get(`${apiBaseUrl}integrations/kotak/auth/`, {
                 headers: {
                     Authorization: Cookies.get("access_token"),
                     'bypass-tunnel-reminder': "true"
@@ -74,7 +74,7 @@ export default function Navigation() {
     const handleFinvasiaIntegration = () => {
         setLoading(true);
         axios
-            .get(`${apiBaseUrl}integrations/shoonya/`, {
+            .get(`${apiBaseUrl}integrations/shoonya/auth`, {
                 headers: {
                     Authorization: Cookies.get("access_token"),
                     'bypass-tunnel-reminder': "true"
@@ -90,6 +90,7 @@ export default function Navigation() {
                     Cookies.set('finvasia_access_token', JSON.stringify(finvasia_access_token), { expires: 1 });
                     setShowFinvasiaModal(true);
                     setIsFinvasiaIntegrated(true);
+                    setIsShoonyaConnected(true);
                 }
             })
             .catch((error) => {
@@ -100,16 +101,31 @@ export default function Navigation() {
 
     const handleError = (error) => {
         if (error.response) {
-            if(error.response.status===401){
-                navigation("/")
+            if (error.response.status === 401) {
+                try {
+                    const detail = JSON.parse(error.response.data.detail);  
+                    const { message, flag } = detail;  
+    
+                    console.log(`Message: ${message}, Flag: ${flag}`);
+    
+                    if (flag === "k" || flag === "s") {
+                        toast.error(message);
+                    } else {
+                        navigation("/");  
+                    }
+                } catch (e) {
+                    toast.error('Error: Unable to parse error details.');
+                }
+            } else {
+                toast.error(`Error: ${error.response.status} - ${error.response.data.message || 'Something went wrong!'}`);
             }
-            toast.error(`Error: ${error.response.status} - ${error.response.data.message || 'Something went wrong!'}`);
         } else if (error.request) {
             toast.error('No response received from the server.');
         } else {
             toast.error('Something went wrong');
         }
     };
+    
 
     const handleAlreadyIntegrated = () => {
         toast.info("Already Integrated");
