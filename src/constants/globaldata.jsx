@@ -1,3 +1,3 @@
-let apiBaseUrl = "https://petite-ghosts-tie.loca.lt/"
+let apiBaseUrl = "https://tame-rockets-reply.loca.lt/"
 export const shoonyaWebSocket = 'wss://api.shoonya.com/NorenWSTP/';
 export default apiBaseUrl;
