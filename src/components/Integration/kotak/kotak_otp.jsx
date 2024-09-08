@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 import kotakLogo from "../../../assets/images/kotak-logo.png";
 import './kotak_otp.css';
 
-export default function KotakOtpModal({ show, setIsKotakIntegrated, onHide }) {
+export default function KotakOtpModal({ show, setIsKotakIntegrated, onHide, setShowSYNC, handleSync }) {
   const [otp, setOtp] = useState(['', '', '', '']);
   const [otpButtonDisable, setOtpButtonDisable] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -96,6 +96,8 @@ export default function KotakOtpModal({ show, setIsKotakIntegrated, onHide }) {
           toast.success("Kotak Integrated Successfully");
           onHide();
           setIsKotakIntegrated(true);
+          setShowSYNC(true);
+          handleSync();
           navigate("/dashboard");
         }
       })

@@ -26,7 +26,23 @@ body {
     font-weight: 500;
     transition: background-color 0.3s ease-in-out;
 }
-
+.sync_btn{
+    margin-top:0px;
+    background-color: #fff;
+    color:#000;
+    outline: none;
+}
+.loading-spinner{
+    max-width: 20px;
+    max-height: 20px;
+    margin: 0;
+}
+.sync-spinner{
+    max-width: 35px;
+    max-height: 35px;
+    margin: 0;
+    padding-right:10px;
+}
 .kotak_btn_integrated, .finvasia_btn_integrated {
     background-color: #28a745;
     color: white !important;
@@ -36,7 +52,9 @@ body {
     font-weight: 500;
     transition: background-color 0.3s ease-in-out;
 }
-
+.title{
+    color:#084298 !important;
+}
 .kotak_btn:hover, .finvasia_btn:hover, .kotak_btn_integrated:hover, .finvasia_btn_integrated:hover {
     background-color: #ff7875;
     color: #fff;
@@ -100,7 +118,7 @@ body {
 
 
 
-@media (max-width: 990px) {
+@media (max-width: 767px) {
 
     .navbar-nav {
         flex-direction: column;
@@ -117,6 +135,9 @@ body {
     .logout-btn, .kotak_btn, .finvasia_btn, .kotak_btn_integrated, .finvasia_btn_integrated{
         margin-left:7px;
         width: 101px;
+    }
+    .sync_btn{
+        margin-left: 7px;
     }
     .MarketCallTag {
         padding-left: 0;
