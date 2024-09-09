@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -11,6 +13,7 @@ import Login from './components/login/login';
 import Navigation from './components/Navigation/navigation';
 import Dashboard from './components/Dashboard/dashboard';
 import AuthWrapper from './components/AuthWrapper/AuthWrapper'; 
+import StockWatchlist from './components/Websocket/Shoonya/AddRemoveWatchlist';
 
 const router = createBrowserRouter([
   {
@@ -19,8 +22,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    // element: <AuthWrapper><div><Navigation /> <Dashboard/></div></AuthWrapper>
-    element: <div> <Dashboard/></div>
+    element: <AuthWrapper><div> <Dashboard/></div></AuthWrapper>
+  },
+  {
+    path: "/watchlist",
+    element: <AuthWrapper><div><Navigation/> <StockWatchlist/></div></AuthWrapper>
   },
   {
     path: "*",

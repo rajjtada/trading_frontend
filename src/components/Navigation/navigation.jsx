@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Navbar, Nav, NavDropdown, Container, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./navigation.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -212,8 +212,8 @@ export default function Navigation({ setIsShoonyaConnected }) {
                             className="me-auto my-2 my-lg-0"
                             style={{ maxHeight: '100%' }}
                         >
-                            {/* <Nav.Link href="#home">Home</Nav.Link>
-                            <Nav.Link href="#portfolio">Portfolio</Nav.Link>
+                            <Nav.Link as={Link} to="/watchlist">Watchlist</Nav.Link>
+                            {/* <Nav.Link href="#portfolio">Portfolio</Nav.Link>
                             <Nav.Link href="#orders">Orders</Nav.Link>
                             <NavDropdown title="More" id="navbarScrollingDropdown">
                                 <NavDropdown.Item href="#action/3.1">Option1</NavDropdown.Item>
@@ -250,11 +250,8 @@ export default function Navigation({ setIsShoonyaConnected }) {
                 </Container>
             </Navbar>
 
-
-            {/* Kotak OTP Modal */}
             <KotakOtpModal show={showKotakModal} setIsKotakIntegrated={setIsKotakIntegrated} setShowSync={setShowSync} handleSync={handleSync} onHide={() => setShowKotakModal(false)} />
 
-            {/* Finvasia Success Modal */}
             <Finvasia show={showFinvasiaModal} onHide={() => setShowFinvasiaModal(false)} />
         </>
     );
