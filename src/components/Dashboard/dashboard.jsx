@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import StockWatchlist from '../Websocket/Shoonya/StockWatchlist';
+import WatchlistSlider from '../Websocket/Shoonya/WatchlistSlider';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from "js-cookie";
 import { useEffect } from 'react';
@@ -10,19 +10,20 @@ import Navigation from '../Navigation/navigation';
 
 export default function Dashboard() {
 
-    const [isShoonyaConnected, setIsShoonyaConnected] = useState(false)
+    // const [isShoonyaConnected, setIsShoonyaConnected] = useState(false)
 
 
-    useEffect(() => {
-        if (Cookies.get("finvasia_access_token")) {
-            setIsShoonyaConnected(true)
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (Cookies.get("finvasia_access_token")) {
+    //         setIsShoonyaConnected(true)
+    //     }
+    // }, [])
 
     return (
         <>
-            <Navigation setIsShoonyaConnected={setIsShoonyaConnected}/>
-            {isShoonyaConnected ? <StockWatchlist /> : <></>}
+            <Navigation />
+            <WatchlistSlider/>
+            {/* {isShoonyaConnected ? <StockWatchlist /> : <></>} */}
         </>
     );
 }

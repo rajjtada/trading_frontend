@@ -97,7 +97,7 @@ export default function KotakOtpModal({ show, setIsKotakIntegrated, onHide, setS
           onHide();
           setIsKotakIntegrated(true);
           setShowSYNC(true);
-          handleSync();
+          // handleSync();
           navigate("/dashboard");
         }
       })
