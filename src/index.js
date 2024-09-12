@@ -26,7 +26,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/watchlist",
-    element: <AuthWrapper><div><Navigation/> <StockWatchlist/></div></AuthWrapper>
+    // element: <AuthWrapper><div><Navigation/> <StockWatchlist/></div></AuthWrapper>
+    element: <div><Navigation/> <StockWatchlist/></div>
   },
   {
     path: "*",
