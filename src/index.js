@@ -14,6 +14,7 @@ import Navigation from './components/Navigation/navigation';
 import Dashboard from './components/Dashboard/dashboard';
 import AuthWrapper from './components/AuthWrapper/AuthWrapper'; 
 import StockWatchlist from './components/Websocket/Shoonya/AddRemoveWatchlist';
+import WebSocketComponent from './components/Websocket/Shoonya/temp';
 
 const router = createBrowserRouter([
   {
@@ -21,8 +22,13 @@ const router = createBrowserRouter([
     element:<Login />
   },
   {
+    path: "/temp",
+    element:<WebSocketComponent />
+  },
+  {
     path: "/dashboard",
-    element: <AuthWrapper><div> <Dashboard/></div></AuthWrapper>
+    // element: <AuthWrapper><div> <Dashboard/></div></AuthWrapper>
+    element: <div> <Dashboard/></div>
   },
   {
     path: "/watchlist",

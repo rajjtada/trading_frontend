@@ -144,6 +144,7 @@ export default function Login() {
         if (res.status === 200) {
           const accessToken = res.data["access_token"];
           Cookies.set('access_token', accessToken, { expires: 1 });
+          Cookies.set('user_id', email, { expires: 1 });
           toast.success("Login Successful");
           navigate("/dashboard");
         }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import WatchlistSlider from '../Websocket/Shoonya/WatchlistSlider';
+import OptionChain from '../OptionChain/OptionChain';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from "js-cookie";
 import { useEffect } from 'react';
@@ -23,6 +24,7 @@ export default function Dashboard() {
         <>
             <Navigation />
             <WatchlistSlider/>
+            <OptionChain />
             {/* {isShoonyaConnected ? <StockWatchlist /> : <></>} */}
         </>
     );

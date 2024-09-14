@@ -1,25 +1,72 @@
 .stock-slider {
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .stock-box {
-    background-color: #f1f1f1;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: left;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-right: 10px;
+}
+
+.stock-box:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .stock-name {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 8px;
 }
 
 .stock-price {
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: 300;
+    color: #000;
+    margin-bottom: 5px;
+}
+
+.stock-change {
+    font-size: 14px;
+}
+
+.stock-change.positive {
     color: #4caf50;
+}
+
+.stock-change.negative {
+    color: #f44336;
+}
+
+@media (max-width: 768px) {
+    .stock-slider {
+        width: 95%;
+    }
+    
+    .stock-box {
+        padding: 15px;
+    }
+
+    .stock-name {
+        font-size: 14px;
+    }
+
+    .stock-price {
+        font-size: 20px;
+    }
+
+    .stock-change {
+        font-size: 14px;
+    }
 }
