@@ -5,6 +5,7 @@
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     max-height: 90vh; 
+    min-height: 90vh; 
     overflow-y: auto; 
   }
   
@@ -43,11 +44,13 @@
   }
   
   .stock-symbol {
-    font-size: 15px;
+    font-size: 13px;
     font-weight: bold;
-    font-size: 14px;
   }
-  
+  .stock-name{
+    font-size: 11px;
+    font-weight:normal;
+  }
   .stock-price {
     font-size: 13px;
     color: #666;
@@ -98,21 +101,59 @@
 
   .stockExchange{
     padding:4px;
-    margin-left: 80%;
+    font-size: 13px;
+  }
+  .suggestion-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .suggestion-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .stockSuggestionSymbol {
+    font-size: 16px;
+    color: #000;
+  }
+  
+  .stockExchange {
+    font-size: 14px;
+    color: #666;
+    margin-left: auto; /* Ensures it moves to the right */
+  }
+  .stockSuggestionSymbol{
     font-size: 13px;
   }
 
-  .stockSuggestionSymbol{
-    font-size: 13px;
-    /* color: #8d8f8c; */
-  }
+
+  .watchlist-buttons-container {
+    display: flex;
+    justify-content: space-around; 
+    align-items: center;
+    flex-wrap: wrap; 
+    margin: 10px 0;
+}
+
+.watchlist-button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    /* background-color: #007bff; */
+    color: white;
+    border: none;
+    margin: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.watchlist-button:hover {
+    background-color: #0056b3;
+}
 
   @media (max-width: 421px) {
     .watchlist-sidebar {
       width: 300px;}
-
-      .stockExchange{
-        margin-left: 70%;
-      }
-
   }
