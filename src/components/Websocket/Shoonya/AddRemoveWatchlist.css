@@ -1,159 +1,158 @@
+/* Sidebar Styling */
 .watchlist-sidebar {
-    width: 400px;
-    height: max-content;
-    background-color: #f8f9fa;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    max-height: 90vh; 
-    min-height: 90vh; 
-    overflow-y: auto; 
-  }
-  
-  .stock-add {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
-  }
-  
-  .stock-input {
-    width: 100%;
-    padding: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .stocks-list {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .stock-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 7px 5px;
-    background-color: #fff;
-    border-bottom: 1px solid #e0e0e0;
-    align-items: center;
-    padding-left: 10px;
-  }
+  width: 400px;
+  height: max-content;
+  background-color: #f8f9fa;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  max-height: 90vh;
+  min-height: 90vh;
+  overflow-y: auto;
+}
 
-  .stock-info {
-    display: flex;
-    flex-direction: column;
+@media (max-width: 421px) {
+  .watchlist-sidebar {
+    width: 300px;
   }
-  
-  .stock-symbol {
-    font-size: 13px;
-    font-weight: bold;
-  }
-  .stock-name{
-    font-size: 11px;
-    font-weight:normal;
-  }
-  .stock-price {
-    font-size: 13px;
-    color: #666;
-  }
-  
-  .remove-btn {
-    visibility: hidden;
-    opacity: 0; 
-    padding: 4px 4px;
-    background-color: white;
-    border: none;
-    cursor: pointer;
-    margin-top: 0px !important;
-    margin-right: 10px;
-    font-size: 12px;
-    transition: opacity 0.3s ease, visibility 0.3s ease; 
-  }
-  
-  .stock-item:hover .remove-btn {
-    visibility: visible;
-    opacity: 1; 
-  }
-  
-  .trash-icon {
-    color: red; 
-    border: 2px solid red; 
-    border-radius: 50%;
-    background-color: transparent; 
-    padding: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease; 
-  }
-  
-  .trash-icon:hover {
-    background-color: #ffe5e5; 
-    transform: scale(1.1); 
-  } 
-  
-    .suggestion-item {
-    cursor: pointer;
-    background-color: #fff;
-    border: 1px solid #e0e0e0;
-  }
-  
-  .suggestion-item:hover {
-    background-color: #f1f1f1;
-  }
+}
 
-  .stockExchange{
-    padding:4px;
-    font-size: 13px;
-  }
-  .suggestion-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .suggestion-content {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-  
-  .stockSuggestionSymbol {
-    font-size: 16px;
-    color: #000;
-  }
-  
-  .stockExchange {
-    font-size: 14px;
-    color: #666;
-    margin-left: auto; /* Ensures it moves to the right */
-  }
-  .stockSuggestionSymbol{
-    font-size: 13px;
-  }
+/* Stock Input and Add Section */
+.stock-add {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
 
+.stock-input {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
 
-  .watchlist-buttons-container {
-    display: flex;
-    justify-content: space-around; 
-    align-items: center;
-    flex-wrap: wrap; 
-    margin: 10px 0;
+/* Stock List Styling */
+.stocks-list {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.stock-item {
+  display: flex;
+  flex-direction: column;
+  padding: 7px 5px;
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  align-items: flex-start;
+}
+
+.stock-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.stock-symbol {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.stock-name {
+  font-size: 11px;
+  font-weight: normal;
+  margin: 0;
+}
+
+.stock-price {
+  font-size: 13px;
+  color: #666;
+  margin-right: 10px;
+}
+
+.remove-btn {
+  visibility: hidden;
+  opacity: 0;
+  padding: 4px;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 5px;
+  font-size: 12px;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.stock-item:hover .remove-btn {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Trash Icon Styling */
+.trash-icon {
+  color: red;
+  border: 2px solid red;
+  border-radius: 50%;
+  background-color: transparent;
+  padding: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.trash-icon:hover {
+  background-color: #ffe5e5;
+  transform: scale(1.1);
+}
+
+/* Stock Suggestions */
+.suggestion-item {
+  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.suggestion-item:hover {
+  background-color: #f1f1f1;
+}
+
+.suggestion-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.stockSuggestionSymbol {
+  font-size: 13px;
+  color: #000;
+}
+
+.stockExchange {
+  font-size: 14px;
+  color: #666;
+  margin-left: auto;
+}
+
+/* Watchlist Buttons */
+.watchlist-buttons-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 10px 0;
 }
 
 .watchlist-button {
-    padding: 5px 10px;
-    border-radius: 5px;
-    /* background-color: #007bff; */
-    color: white;
-    border: none;
-    margin: 5px;
-    margin-bottom: 10px;
-    cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  border: none;
+  margin: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  background-color: #007bff;
 }
 
 .watchlist-button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
-
-  @media (max-width: 421px) {
-    .watchlist-sidebar {
-      width: 300px;}
-  }

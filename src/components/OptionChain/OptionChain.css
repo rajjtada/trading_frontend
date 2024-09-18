@@ -1,0 +1,72 @@
+.option-chain-container {
+    width: 80%;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    margin: auto;
+  }
+  
+  .title {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .option-chain-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  .table-header {
+    background-color: #ffffff;
+    /* padding: 5px; */
+    border: 1px solid #e0e0e0;
+    font-weight: normal;
+  }
+  
+  .table-cell {
+    /* padding: 5px; */
+    border: 1px solid #e0e0e0;
+  }
+  
+  .strike-price-cell {
+    background-color: #f5f5f5;
+    font-weight: 600;
+  }
+
+  .put-cell{
+      background-color: #d9f1d9;
+  }
+  .call-cell{
+      background-color: #f3efef;
+  }
+
+  .CallHeader{
+      text-align: end;
+      color: salmon;
+      font-weight: bold;
+      background-color: #f1d7d7;
+  }
+  .PutHeader{
+      text-align: start;
+    font-weight: bold;
+      color: #0a9b5a;
+      background-color: #b2efd1;
+  }
+
+  @media (max-width: 768px) {
+    .option-chain-table {
+      font-size: 12px;
+    }
+    .option-chain-container {
+        width: 100%;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+  }
+  
