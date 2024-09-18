@@ -551,7 +551,7 @@ function getScripByteArray(c, a) {
         let currScrip = scripArray[index];
         let scripLen = currScrip.length;
         bytes[pos++] = (scripLen & 255);
-        for (strIndex = 0; strIndex < scripLen; strIndex++) {
+        for (let strIndex = 0; strIndex < scripLen; strIndex++) {
             bytes[pos++] = currScrip.charCodeAt(strIndex)
         }
     }
@@ -1024,6 +1024,8 @@ var HSWebSocket = (function() {
     }
     return a
 }());
+
+export default HSWebSocket;
 
 function startServer(a) {
     if (("WebSocket" in window)) {
@@ -3260,9 +3262,6 @@ var HSIWebSocket = (function() {
     }
     return a
 }());
-
-module.exports = HSIWebSocket;
-
 
 function startHsiServer(a) {
     if (("WebSocket" in window)) {
